@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, Mail } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import './App.css';
 
 export default function PortfolioSite() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [, setScrollY] = useState(0);
 
@@ -11,35 +11,40 @@ export default function PortfolioSite() {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     
-    // Accept Event, not MouseEvent, for compatibility with addEventListener
-    const handleClickOutside = (event: Event) => {
-      const target = event.target as HTMLElement;
-      if (!target.closest('.dropdown-container')) {
-        setActiveDropdown(null);
-      }
-    };
-    document.addEventListener('click', handleClickOutside);
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+    // Handle collapsible sections
+    if (['product-mgmt', 'product-mkt', 'gallery'].includes(sectionId)) {
+      // First expand the section if it's not already active
+      if (activeSection !== sectionId) {
+        setActiveSection(sectionId);
+      }
+
+      // Then scroll to it after a brief delay to allow expansion
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }, 100);
+    } else {
+      // Handle regular sections
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     }
     setIsMenuOpen(false);
-    setActiveDropdown(null);
-  };
-
-  const toggleDropdown = (dropdownName: string) => {
-    setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
   };
 
   const toggleSection = (sectionName: string) => {
@@ -55,224 +60,21 @@ export default function PortfolioSite() {
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-md shadow-lg fixed w-full top-0 z-50 border-b border-gray-200/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-              Suzanne De Silva
-            </div>
-            
-            {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center space-x-1 bg-gray-50/80 backdrop-blur-sm rounded-full px-3 py-2 shadow-md border border-gray-200/50 relative">
-              <button onClick={() => scrollToSection('home')} className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow-md">
-                Home
-              </button>
-              <button onClick={() => scrollToSection('about')} className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow-md">
-                About
-              </button>
-              
-              {/* Product Management Dropdown */}
-              <div className="relative dropdown-container">
-                <button 
-                  onClick={() => toggleDropdown('product-mgmt')}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow-md flex items-center"
-                >
-                  Product Management
-                  <ChevronDown size={16} className={`ml-1 transition-transform ${activeDropdown === 'product-mgmt' ? 'rotate-180' : ''}`} />
-                </button>
-                {activeDropdown === 'product-mgmt' && (
-                  <div className="absolute top-full left-0 mt-2 w-[420px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">Product Management Philosophy</h3>
-                      <p className="text-sm text-gray-600 mb-4">My approach is simple and revolves around 4 key themes</p>
-                      
-                      <div className="mb-4">
-                        <h4 className="font-semibold text-emerald-600 text-sm mb-2">Core Principles:</h4>
-                        <ul className="space-y-1.5 text-sm text-gray-700">
-                          <li className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span>Launch and learn quickly</span>
-                          </li>
-                          <li className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span>Keep the end consumer in mind</span>
-                          </li>
-                          <li className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span>Minimize the number of unknowns</span>
-                          </li>
-                          <li className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span>Create a feedback loop of learning and best practices</span>
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div className="mb-4">
-                        <h4 className="font-semibold text-teal-600 text-sm mb-2">Key Methodologies:</h4>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-                          <div>• Be Proactive</div>
-                          <div>• Prototype & Fail Fast</div>
-                          <div>• Future-Minded Planning</div>
-                          <div>• Budget for Unknown</div>
-                          <div>• Build Product Loyalty</div>
-                          <div>• Monitor & Test</div>
-                        </div>
-                      </div>
-                      
-                      <button 
-                        onClick={() => {
-                          setActiveDropdown(null);
-                          toggleSection('product-mgmt');
-                          setTimeout(() => {
-                            const element = document.querySelector('.collapsible-sections');
-                            if (element) {
-                              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
-                          }, 100);
-                        }}
-                        className="w-full bg-emerald-500 text-white rounded-lg py-2 hover:bg-emerald-600 transition-colors text-sm font-medium"
-                      >
-                        Read Full Philosophy
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Product Marketing Dropdown */}
-              <div className="relative dropdown-container">
-                <button 
-                  onClick={() => toggleDropdown('product-mkt')}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow-md flex items-center"
-                >
-                  Product Marketing
-                  <ChevronDown size={16} className={`ml-1 transition-transform ${activeDropdown === 'product-mkt' ? 'rotate-180' : ''}`} />
-                </button>
-                {activeDropdown === 'product-mkt' && (
-                  <div className="absolute top-full left-0 mt-2 w-[420px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">Product Marketing Philosophy</h3>
-                      <p className="text-sm text-gray-600 mb-4">Strategically determining the 10-20 words that uniquely position, acquire, sustain and defend a product's market share.</p>
-                      
-                      <div className="mb-4">
-                        <h4 className="font-semibold text-purple-600 text-sm mb-2">Strategic Framework:</h4>
-                        <div className="space-y-2 text-sm text-gray-700">
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Anchor New Technology:</strong> Make unfamiliar tech relatable</span>
-                          </div>
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Create a Platform:</strong> Build scalable positioning frameworks</span>
-                          </div>
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Lockout Competition:</strong> Position in authentic white spaces</span>
-                          </div>
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Marketize Technology:</strong> Focus on user benefits, not tech specs</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mb-4 p-3 bg-purple-50 rounded-lg">
-                        <h5 className="text-xs font-semibold text-purple-700 mb-1">Example Success:</h5>
-                        <p className="text-xs text-purple-600">"Everything You Love, Hyperfast" - 5G positioning that anchors new technology in familiar smartphone experiences</p>
-                      </div>
-                      
-                      <button 
-                        onClick={() => {
-                          setActiveDropdown(null);
-                          toggleSection('product-mkt');
-                          setTimeout(() => {
-                            const element = document.querySelector('.collapsible-sections');
-                            if (element) {
-                              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
-                          }, 100);
-                        }}
-                        className="w-full bg-purple-500 text-white rounded-lg py-2 hover:bg-purple-600 transition-colors text-sm font-medium"
-                      >
-                        Explore Marketing Strategy
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Media Gallery Dropdown */}
-              <div className="relative dropdown-container">
-                <button 
-                  onClick={() => toggleDropdown('gallery')}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow-md flex items-center"
-                >
-                  Gallery
-                  <ChevronDown size={16} className={`ml-1 transition-transform ${activeDropdown === 'gallery' ? 'rotate-180' : ''}`} />
-                </button>
-                {activeDropdown === 'gallery' && (
-                  <div className="absolute top-full left-0 mt-2 w-[380px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-gray-900 mb-3">Media Gallery</h3>
-                      <p className="text-sm text-gray-600 mb-4">Featured presentations, speaking engagements, and media appearances</p>
-                      
-                      <div className="mb-4">
-                        <h4 className="font-semibold text-blue-600 text-sm mb-2">Featured Content:</h4>
-                        <div className="space-y-2 text-sm text-gray-700">
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Samsung Unpacked Events:</strong> Product launches & strategy presentations</span>
-                          </div>
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Industry Conferences:</strong> Keynotes on mobile innovation</span>
-                          </div>
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Product Strategy Videos:</strong> Deep-dive presentations</span>
-                          </div>
-                          <div className="flex items-start">
-                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></div>
-                            <span><strong>Media Interviews:</strong> Technology insights & market analysis</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mb-4 p-3 bg-blue-50 rounded-lg">
-                        <h5 className="text-xs font-semibold text-blue-700 mb-1">Featured Video:</h5>
-                        <p className="text-xs text-blue-600">Watch product strategy discussions and innovation insights from Samsung events</p>
-                      </div>
-                      
-                      <button 
-                        onClick={() => {
-                          setActiveDropdown(null);
-                          toggleSection('gallery');
-                          setTimeout(() => {
-                            const element = document.querySelector('.collapsible-sections');
-                            if (element) {
-                              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
-                          }, 100);
-                        }}
-                        className="w-full bg-blue-500 text-white rounded-lg py-2 hover:bg-blue-600 transition-colors text-sm font-medium"
-                      >
-                        View Media Gallery
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <button onClick={() => scrollToSection('experience')} className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow-md">
-                Experience
-              </button>
-              <button onClick={() => scrollToSection('contact')} className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-full transition-all duration-300 font-medium shadow-sm hover:shadow-md">
-                Contact
-              </button>
+          <div className="flex justify-center items-center py-4">
+            {/* Center: Navigation Menu */}
+            <div className="hidden lg:flex items-center space-x-1 bg-gradient-to-r from-purple-500 to-blue-600 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-purple-400/50">
+              <button onClick={() => scrollToSection('home')} className="w-44 px-4 py-3 text-white hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-300 font-bold shadow-sm hover:shadow-md text-center text-base">Home</button>
+              <button onClick={() => scrollToSection('about')} className="w-44 px-4 py-3 text-white hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-300 font-bold shadow-sm hover:shadow-md text-center text-base">About</button>
+              <button onClick={() => scrollToSection('product-mgmt')} className="w-44 px-4 py-3 text-white hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-300 font-bold shadow-sm hover:shadow-md text-center text-base">Product Management</button>
+              <button onClick={() => scrollToSection('product-mkt')} className="w-44 px-4 py-3 text-white hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-300 font-bold shadow-sm hover:shadow-md text-center text-base">Product Marketing</button>
+              <button onClick={() => scrollToSection('gallery')} className="w-44 px-4 py-3 text-white hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-300 font-bold shadow-sm hover:shadow-md text-center text-base">Gallery</button>
+              <button onClick={() => scrollToSection('experience')} className="w-44 px-4 py-3 text-white hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-300 font-bold shadow-sm hover:shadow-md text-center text-base">Experience</button>
+              <button onClick={() => scrollToSection('contact')} className="w-44 px-4 py-3 text-white hover:text-gray-900 hover:bg-white rounded-lg transition-all duration-300 font-bold shadow-sm hover:shadow-md text-center text-base">Contact</button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden p-3 rounded-full bg-gray-800 text-white shadow-lg hover:bg-gray-700 transition-all duration-300"
+            {/* Right: Mobile Menu Button */}
+            <button
+              className="lg:hidden p-3 rounded-full bg-gray-800 text-white shadow-lg hover:bg-gray-700 transition-all duration-300 absolute right-4"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -285,68 +87,9 @@ export default function PortfolioSite() {
               <div className="p-2 space-y-1">
                 <button onClick={() => scrollToSection('home')} className="block w-full text-left py-3 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 font-medium">Home</button>
                 <button onClick={() => scrollToSection('about')} className="block w-full text-left py-3 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 font-medium">About</button>
-                
-                {/* Mobile Collapsible Section Links */}
-                <div className="border-l-2 border-emerald-500 ml-4 pl-2">
-                  <button 
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      toggleSection('product-mgmt');
-                      setTimeout(() => {
-                        const element = document.querySelector('.collapsible-sections');
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                      }, 100);
-                    }} 
-                    className="block w-full text-left py-2 px-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-300 font-medium text-sm"
-                  >
-                    Product Management
-                  </button>
-                  <p className="text-xs text-gray-500 px-2 pb-1">4 key themes: Launch & learn, consumer focus, minimize unknowns, feedback loops</p>
-                  <p className="text-xs text-emerald-600 px-2 pb-2">Methodologies: Be proactive, prototype & fail fast, future-minded planning</p>
-                </div>
-                
-                <div className="border-l-2 border-purple-500 ml-4 pl-2">
-                  <button 
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      toggleSection('product-mkt');
-                      setTimeout(() => {
-                        const element = document.querySelector('.collapsible-sections');
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                      }, 100);
-                    }} 
-                    className="block w-full text-left py-2 px-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-300 font-medium text-sm"
-                  >
-                    Product Marketing
-                  </button>
-                  <p className="text-xs text-gray-500 px-2 pb-1">Strategic positioning with 10-20 words that uniquely define market position</p>
-                  <p className="text-xs text-purple-600 px-2 pb-2">Framework: Anchor in familiar, create platforms, lockout competition</p>
-                </div>
-                
-                <div className="border-l-2 border-blue-500 ml-4 pl-2">
-                  <button 
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      toggleSection('gallery');
-                      setTimeout(() => {
-                        const element = document.querySelector('.collapsible-sections');
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                      }, 100);
-                    }} 
-                    className="block w-full text-left py-2 px-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-300 font-medium text-sm"
-                  >
-                    Gallery
-                  </button>
-                  <p className="text-xs text-gray-500 px-2 pb-1">Samsung Unpacked events, industry conferences, strategy videos</p>
-                  <p className="text-xs text-blue-600 px-2 pb-2">Featured: Product launches, keynotes, media interviews</p>
-                </div>
-                
+                <button onClick={() => scrollToSection('product-mgmt')} className="block w-full text-left py-3 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 font-medium">Product Management</button>
+                <button onClick={() => scrollToSection('product-mkt')} className="block w-full text-left py-3 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 font-medium">Product Marketing</button>
+                <button onClick={() => scrollToSection('gallery')} className="block w-full text-left py-3 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 font-medium">Gallery</button>
                 <button onClick={() => scrollToSection('experience')} className="block w-full text-left py-3 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 font-medium">Experience</button>
                 <button onClick={() => scrollToSection('contact')} className="block w-full text-left py-3 px-4 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 font-medium">Contact</button>
               </div>
@@ -358,50 +101,56 @@ export default function PortfolioSite() {
       {/* Hero Section */}
       <section id="home" className="pt-24 pb-24 relative overflow-hidden min-h-screen">
         {/* Video Background */}
-        <div 
-          className="absolute inset-0 z-0"
+        <div
+          className="absolute inset-4 z-0 border-4 border-white/20 rounded-lg shadow-2xl"
           style={{
             transform: `scale(${videoScale})`,
             opacity: videoOpacity,
             transition: 'transform 0.1s ease-out, opacity 0.1s ease-out'
           }}
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src="/videos/s10-feature-suzanne-desilva.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <iframe
+            src="https://www.youtube.com/embed/IAWvulFcZkY?autoplay=1&mute=1&loop=1&playlist=IAWvulFcZkY&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&start=49"
+            className="w-full h-full object-cover border-0 rounded-lg"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            title="Suzanne De Silva Samsung Galaxy S10 Presentation"
+          ></iframe>
         </div>
         
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-          <div className="py-32">
-            {/* Video section content can be added here if needed */}
+        {/* Text Overlay on Video */}
+        <div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 px-4 sm:px-6 lg:px-8"
+          style={{
+            transform: `translateX(-50%) scale(${videoOpacity > 0.5 ? videoScale : Math.max(videoScale, 0.8)})`,
+            transition: 'transform 0.1s ease-out'
+          }}
+        >
+          <div className="text-center">
+            <div className="max-w-4xl mx-auto">
+              <div
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg transition-colors duration-300"
+                style={{
+                  color: videoOpacity > 0.5 ? 'white' : '#1f2937'
+                }}
+              >
+                Suzanne De Silva
+              </div>
+              <h1
+                className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 drop-shadow-lg transition-colors duration-300"
+                style={{
+                  color: videoOpacity > 0.5 ? 'white' : '#1f2937'
+                }}
+              >
+                Mobile Expert, Creative Thinker,
+                <span className="block">Inspiring Leader</span>
+              </h1>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Header Content Section */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-white relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-purple-100/30"></div>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Mobile Expert, Creative Thinker,
-              <span className="text-purple-600 block bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Inspiring Leader</span>
-            </h1>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
-              For the past 16 years I have developed and launched products based on consumer insights
-              across the hardware and software stack. These products have driven engagement and delight
-              across millions of consumers globally.
-            </p>
-          </div>
-        </div>
-      </section>
+
 
       {/* About Section - Moved to first position */}
       <section id="about" className="py-16 bg-gradient-to-br from-gray-50 to-white relative">
@@ -411,7 +160,12 @@ export default function PortfolioSite() {
             <div>
               <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">About Me</h2>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                I am passionate about developing technology that addresses real consumer needs; 
+                For the past 16 years I have developed and launched products based on consumer insights
+                across the hardware and software stack. These products have driven engagement and delight
+                across millions of consumers globally.
+              </p>
+              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                I am passionate about developing technology that addresses real consumer needs;
                 makes life easier, and reduces technology adoption friction through the use of AI.
               </p>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
@@ -504,19 +258,18 @@ export default function PortfolioSite() {
 
       {/* Collapsible Content Sections */}
       <section className="py-16 bg-gradient-to-br from-gray-50 to-white collapsible-sections">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Explore My Expertise</h2>
-            <p className="text-xl text-gray-600">Click on any section below to dive deeper into my approach and philosophy</p>
           </div>
 
           {/* Product Management Collapsible Section */}
-          <div className="mb-6 bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
-            <button 
+          <div id="product-mgmt" className="mb-6 bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group">
+            <button
               onClick={() => toggleSection('product-mgmt')}
-              className={`w-full p-6 text-left flex items-center justify-between transition-all duration-300 ${
-                activeSection === 'product-mgmt' 
-                ? 'bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700' 
+              className={`w-full p-6 text-left flex items-center justify-between transition-all duration-300 relative ${
+                activeSection === 'product-mgmt'
+                ? 'bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700'
                 : 'bg-white hover:bg-gray-50 text-gray-900'
               }`}
             >
@@ -524,12 +277,9 @@ export default function PortfolioSite() {
                 <h3 className="text-2xl font-bold mb-2">Product Management Philosophy</h3>
                 <p className="text-lg opacity-80">My approach revolves around 4 key themes that drive successful product development</p>
               </div>
-              <ChevronDown 
-                size={28} 
-                className={`transition-transform duration-300 ${
-                  activeSection === 'product-mgmt' ? 'rotate-180' : ''
-                }`} 
-              />
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                Click to explore
+              </div>
             </button>
             
             <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
@@ -610,12 +360,12 @@ export default function PortfolioSite() {
           </div>
 
           {/* Product Marketing Collapsible Section */}
-          <div className="mb-6 bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
-            <button 
+          <div id="product-mkt" className="mb-6 bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group">
+            <button
               onClick={() => toggleSection('product-mkt')}
-              className={`w-full p-6 text-left flex items-center justify-between transition-all duration-300 ${
-                activeSection === 'product-mkt' 
-                ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700' 
+              className={`w-full p-6 text-left flex items-center justify-between transition-all duration-300 relative ${
+                activeSection === 'product-mkt'
+                ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700'
                 : 'bg-white hover:bg-gray-50 text-gray-900'
               }`}
             >
@@ -623,12 +373,9 @@ export default function PortfolioSite() {
                 <h3 className="text-2xl font-bold mb-2">Product Marketing Philosophy</h3>
                 <p className="text-lg opacity-80">Strategic positioning with 10-20 words that uniquely define market position</p>
               </div>
-              <ChevronDown 
-                size={28} 
-                className={`transition-transform duration-300 ${
-                  activeSection === 'product-mkt' ? 'rotate-180' : ''
-                }`} 
-              />
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-purple-500 to-pink-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                Click to explore
+              </div>
             </button>
             
             <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
@@ -686,12 +433,12 @@ export default function PortfolioSite() {
           </div>
 
           {/* Media Gallery Collapsible Section */}
-          <div className="mb-6 bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
-            <button 
+          <div id="gallery" className="mb-6 bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group">
+            <button
               onClick={() => toggleSection('gallery')}
-              className={`w-full p-6 text-left flex items-center justify-between transition-all duration-300 ${
-                activeSection === 'gallery' 
-                ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700' 
+              className={`w-full p-6 text-left flex items-center justify-between transition-all duration-300 relative ${
+                activeSection === 'gallery'
+                ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700'
                 : 'bg-white hover:bg-gray-50 text-gray-900'
               }`}
             >
@@ -699,61 +446,245 @@ export default function PortfolioSite() {
                 <h3 className="text-2xl font-bold mb-2">Media Gallery</h3>
                 <p className="text-lg opacity-80">Featured presentations, speaking engagements, and media appearances</p>
               </div>
-              <ChevronDown 
-                size={28} 
-                className={`transition-transform duration-300 ${
-                  activeSection === 'gallery' ? 'rotate-180' : ''
-                }`} 
-              />
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                Click to explore
+              </div>
             </button>
             
             <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-              activeSection === 'gallery' ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+              activeSection === 'gallery' ? 'max-h-[4000px] opacity-100' : 'max-h-0 opacity-0'
             }`}>
               <div className="p-8 bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 border-t border-blue-100">
-                <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="mb-8">
+                  <h4 className="text-3xl font-bold text-gray-900 mb-4 text-center">Featured Videos & Presentations</h4>
+                  <p className="text-gray-600 text-center max-w-3xl mx-auto">Watch Suzanne's key presentations from Samsung Unpacked events, product launches, and industry conferences showcasing mobile innovation and product strategy.</p>
+                </div>
+
+                {/* Video Grid */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                  {/* Samsung Galaxy S10 Presentation */}
                   <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div className="aspect-video bg-gradient-to-br from-red-500 to-pink-600 relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <a 
-                          href="https://www.youtube.com/watch?v=SSCmwChfdvM"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-white/20 backdrop-blur-sm rounded-full p-4 hover:bg-white/30 transition-colors"
-                        >
-                          <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
-                        </a>
-                      </div>
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <h4 className="text-white font-semibold text-lg drop-shadow">Featured Video</h4>
-                        <p className="text-white/90 text-sm drop-shadow">Watch Suzanne discuss product strategy and innovation</p>
-                      </div>
+                    <div className="aspect-video relative group cursor-pointer">
+                      <a
+                        href="https://www.youtube.com/watch?v=IAWvulFcZkY&t=49s"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/IAWvulFcZkY/maxresdefault.jpg"
+                          alt="Galaxy S10 Launch - Samsung Unpacked 2019"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
+                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <h5 className="text-white font-semibold text-lg drop-shadow">Galaxy S10 Launch</h5>
+                          <p className="text-white/90 text-sm drop-shadow">Samsung Unpacked 2019</p>
+                        </div>
+                      </a>
                     </div>
-                    <div className="p-6">
-                      <p className="text-gray-700">Click to watch the full presentation on product strategy, innovation, and market positioning.</p>
+                    <div className="p-4">
+                      <p className="text-gray-700 text-sm">Suzanne presents the Galaxy S10 features and camera innovations at Samsung's flagship event.</p>
                     </div>
                   </div>
-                  
-                  <div className="bg-white rounded-2xl shadow-xl p-8">
-                    <h4 className="text-2xl font-bold text-gray-900 mb-6">Speaking Engagements</h4>
+
+                  {/* Samsung Unpacked 2019 Full Event */}
+                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="aspect-video relative group cursor-pointer">
+                      <a
+                        href="https://www.youtube.com/watch?v=USDvd7fhbd0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/USDvd7fhbd0/maxresdefault.jpg"
+                          alt="Unpacked 2019 Full Event - Complete Galaxy S10 Launch"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
+                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <h5 className="text-white font-semibold text-lg drop-shadow">Unpacked 2019 Full Event</h5>
+                          <p className="text-white/90 text-sm drop-shadow">Complete Galaxy S10 Launch</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-gray-700 text-sm">Full Samsung Unpacked 2019 event featuring Galaxy S10 series and innovative mobile technologies.</p>
+                    </div>
+                  </div>
+
+                  {/* Product Strategy Video */}
+                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="aspect-video relative group cursor-pointer">
+                      <a
+                        href="https://www.youtube.com/watch?v=SSCmwChfdvM"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/SSCmwChfdvM/maxresdefault.jpg"
+                          alt="Product Strategy Deep Dive - Innovation & Market Positioning"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
+                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <h5 className="text-white font-semibold text-lg drop-shadow">Product Strategy Deep Dive</h5>
+                          <p className="text-white/90 text-sm drop-shadow">Innovation & Market Positioning</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-gray-700 text-sm">Comprehensive discussion on product strategy, innovation methodology, and market positioning.</p>
+                    </div>
+                  </div>
+
+                  {/* Samsung Galaxy Note 8 */}
+                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="aspect-video relative group cursor-pointer">
+                      <a
+                        href="https://www.youtube.com/watch?v=aS3_7iifqYo"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/aS3_7iifqYo/maxresdefault.jpg"
+                          alt="Galaxy Note 8 Launch - Unpacked 2017 New York"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
+                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <h5 className="text-white font-semibold text-lg drop-shadow">Galaxy Note 8 Launch</h5>
+                          <p className="text-white/90 text-sm drop-shadow">Unpacked 2017 New York</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-gray-700 text-sm">Galaxy Note 8 unveiling at Brooklyn's Barclays Center featuring S-Pen innovations.</p>
+                    </div>
+                  </div>
+
+                  {/* Samsung Live Stream */}
+                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="aspect-video relative group cursor-pointer">
+                      <a
+                        href="https://www.youtube.com/watch?v=QduQGadjigM"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/QduQGadjigM/maxresdefault.jpg"
+                          alt="Live Event Coverage - Behind the Scenes"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
+                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <h5 className="text-white font-semibold text-lg drop-shadow">Live Event Coverage</h5>
+                          <p className="text-white/90 text-sm drop-shadow">Behind the Scenes</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-gray-700 text-sm">Live coverage and behind-the-scenes content from Samsung's major product launch events.</p>
+                    </div>
+                  </div>
+
+                  {/* Latest Unpacked */}
+                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="aspect-video relative group cursor-pointer">
+                      <a
+                        href="https://www.youtube.com/watch?v=DzjsdYZQ7ns"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src="https://img.youtube.com/vi/DzjsdYZQ7ns/maxresdefault.jpg"
+                          alt="Galaxy Unpacked 2024 - Latest Innovations"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
+                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <h5 className="text-white font-semibold text-lg drop-shadow">Galaxy Unpacked 2024</h5>
+                          <p className="text-white/90 text-sm drop-shadow">Latest Innovations</p>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-gray-700 text-sm">Latest Samsung Unpacked event showcasing cutting-edge Galaxy AI and ecosystem innovations.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Speaking Engagements Section */}
+                <div className="bg-white rounded-2xl shadow-xl p-8">
+                  <h4 className="text-2xl font-bold text-gray-900 mb-6 text-center">Speaking Engagements & Expertise</h4>
+                  <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div className="border-l-4 border-purple-500 pl-4">
                         <h5 className="font-semibold text-gray-900">Samsung Unpacked Events</h5>
-                        <p className="text-gray-600">Product launches and strategy presentations for Galaxy devices</p>
+                        <p className="text-gray-600">Lead presenter for Galaxy S10, Note 8, and major product launches</p>
                       </div>
                       <div className="border-l-4 border-blue-500 pl-4">
                         <h5 className="font-semibold text-gray-900">Industry Conferences</h5>
-                        <p className="text-gray-600">Keynotes on mobile innovation and product management</p>
+                        <p className="text-gray-600">Keynotes on mobile innovation, 5G technology, and product management</p>
                       </div>
                       <div className="border-l-4 border-green-500 pl-4">
                         <h5 className="font-semibold text-gray-900">Media Interviews</h5>
-                        <p className="text-gray-600">Technology insights and market analysis</p>
+                        <p className="text-gray-600">Technology insights, market analysis, and product strategy discussions</p>
                       </div>
+                    </div>
+                    <div className="space-y-4">
                       <div className="border-l-4 border-orange-500 pl-4">
                         <h5 className="font-semibold text-gray-900">Product Strategy Sessions</h5>
                         <p className="text-gray-600">Deep-dive presentations on product development methodology</p>
+                      </div>
+                      <div className="border-l-4 border-red-500 pl-4">
+                        <h5 className="font-semibold text-gray-900">Camera & Innovation Focus</h5>
+                        <p className="text-gray-600">Specialized presentations on mobile photography and dual-camera technology</p>
+                      </div>
+                      <div className="border-l-4 border-indigo-500 pl-4">
+                        <h5 className="font-semibold text-gray-900">Global Launch Events</h5>
+                        <p className="text-gray-600">International product reveals and market positioning strategies</p>
                       </div>
                     </div>
                   </div>
@@ -840,89 +771,47 @@ export default function PortfolioSite() {
       <section id="contact" className="py-16 bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-cyan-600/20"></div>
         <div className="absolute top-10 right-10 w-72 h-72 bg-gradient-to-r from-pink-500 to-violet-600 rounded-full mix-blend-screen filter blur-3xl opacity-20"></div>
-        <div className="absolute bottom-10 left-10 w-80 h-80 bg-gradient-to-r from-yellow-400 to-orange-600 rounded-full mix-blend-screen filter blur-3xl opacity-20"></div>
-        
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">Get In Touch</h2>
-            <p className="text-lg text-gray-300 max-w-xl mx-auto leading-relaxed">
-              I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
-              <p className="text-white/90 mb-4">
-                <span className="font-semibold">Email:</span> suzanne.desilva@gmail.com
-              </p>
-              <p className="text-white/90 mb-4">
-                <span className="font-semibold">Phone:</span> +1 (123) 456-7890
-              </p>
-              <p className="text-white/90">
-                <span className="font-semibold">Location:</span> San Francisco, CA
-              </p>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="text-4xl font-bold text-white text-center mb-8">Contact</h2>
+          <form className="space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-lg font-medium text-white mb-2">Name</label>
+              <input type="text" id="name" name="name" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="Your Name" />
             </div>
-            
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-6">Connect With Me</h3>
-              <div className="flex space-x-4">
-                <a 
-                  href="https://www.linkedin.com/in/suzanne-desilva/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                >
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M4.98 3C3.88 3 3 3.88 3 4.98v14.04C3 20.12 3.88 21 4.98 21h14.04C20.12 21 21 20.12 21 19.02V4.98C21 3.88 20.12 3 19.02 3H4.98zM9 19H7v-6h2v6zm-1-7.07c-.65 0-1.17-.52-1.17-1.17S7.35 9.76 8 9.76s1.17.52 1.17 1.17-.52 1.17-1.17 1.17zm11 7.07h-2v-3.5c0-.83-.67-1.5-1.5-1.5S15 15.17 15 16v3h-2v-6h2v.84c.28-.54.79-.84 1.36-.84 1.1 0 2 .9 2 2v3.26z"/>
-                  </svg>
-                </a>
-                <a 
-                  href="https://twitter.com/suzannedesilva"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                >
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.643 4.937c-.835.371-1.732.62-2.675.732a4.686 4.686 0 0 0 2.034-2.573 9.373 9.373 0 0 1-3.127 1.195A4.648 4.648 0 0 0 16.337 3c-2.573 0-4.655 2.082-4.655 4.655 0 .365.041.719.122 1.061-3.872-.194-7.314-2.051-9.605-4.867a4.646 4.646 0 0 0-.628 2.337c0 1.617.823 3.042 2.073 3.872a4.617 4.617 0 0 1-2.107-.582v.058c0 2.247 1.596 4.115 3.72 4.54a4.655 4.655 0 0 1-2.1.079c.593 1.855 2.309 3.208 4.33 3.244A9.354 9.354 0 0 1 2 19.543a13.186 13.186 0 0 0 7.148 2.094c8.577 0 13.287-7.113 13.287-13.287 0-.203 0-.406-.014-.608A9.427 9.427 0 0 0 24 4.557a9.24 9.24 0 0 1-2.657.728 4.646 4.646 0 0 0 2.034-2.573z"/>
-                  </svg>
-                </a>
-                <a 
-                  href="https://github.com/suzannedesilva"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                >
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0C5.373 0 0 5.373 0 12c0 5.273 3.438 9.8 8.207 11.387.6.111.793-.261.793-.577 0-.287-.011-1.243-.018-2.25-3.338.724-4.042-1.607-4.042-1.607-.546-1.384-1.333-1.754-1.333-1.754-1.086-.743.083-.728.083-.728 1.204.084 1.836 1.237 1.836 1.237 1.067 1.827 2.803 1.297 3.487.992.107-.772.418-1.297.761-1.597-2.665-.303-5.467-1.333-5.467-5.933 0-1.312.469-2.384 1.236-3.219-.124-.303-.537-1.52.117-3.165 0 0 1.007-.323 3.303 1.23A11.56 11.56 0 0 1 12 3.013c1.03.004 2.06.139 3.086.404 2.296-1.553 3.303-1.23 3.303-1.23.654 1.645.241 2.862.118 3.165.767.835 1.236 1.907 1.236 3.219 0 4.605-2.805 5.63-5.465 5.933.429.371.812 1.104.812 2.223 0 1.607-.014 2.898-.014 3.287 0 .319.187.694.798.577A12.045 12.045 0 0 0 24 12c0-6.627-5.373-12-12-12z"/>
-                  </svg>
-                </a>
-              </div>
+            <div>
+              <label htmlFor="email" className="block text-lg font-medium text-white mb-2">Email</label>
+              <input type="email" id="email" name="email" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="you@email.com" />
             </div>
-          </div>
+            <div>
+              <label htmlFor="message" className="block text-lg font-medium text-white mb-2">Message</label>
+              <textarea id="message" name="message" rows={5} className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400" placeholder="How can I help you?"></textarea>
+            </div>
+            <div className="text-center">
+              <button type="submit" className="inline-block px-8 py-3 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold rounded-full shadow-lg hover:from-purple-400 hover:to-cyan-400 transition-all duration-300">Send Message</button>
+            </div>
+          </form>
 
-          <div className="mt-8">
-            <a 
-              href="https://suzannedesilva.com"
+          {/* LinkedIn Button */}
+          <div className="text-center mt-8 pt-8 border-t border-white/20">
+            <p className="text-white/80 mb-4">Or connect with me on LinkedIn</p>
+            <a
+              href="https://www.linkedin.com/in/suzannedesilva/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-white font-semibold shadow-lg hover:from-purple-500 hover:to-blue-500 transition-all duration-300"
+              className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              Visit My Website
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              Connect on LinkedIn
             </a>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 bg-gray-900 text-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="border-t border-gray-700 pt-4">
-            <p className="text-center text-gray-400 text-sm">
-              &copy; 2023 Suzanne De Silva. All rights reserved.
-            </p>
-          </div>
-        </div>
+      <footer className="py-8 bg-white border-t border-gray-200 text-center text-gray-500 text-sm">
+        &copy; {new Date().getFullYear()} Suzanne De Silva. All rights reserved.
       </footer>
     </div>
   );
