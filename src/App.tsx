@@ -138,24 +138,24 @@ export default function PortfolioSite() {
       {/* About Section - Moved to first position */}
       <section id="about" className="py-16 bg-cream">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
               <h2 className="text-4xl font-bold text-gunmetal mb-6">About Me</h2>
-              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-900 font-medium mb-6 leading-relaxed">
                 For the past 16 years I have developed and launched products based on consumer insights
                 across the hardware and software stack. These products have driven engagement and delight
                 across millions of consumers globally.
               </p>
-              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-900 font-medium mb-6 leading-relaxed">
                 I am passionate about developing technology that addresses real consumer needs;
                 makes life easier, and reduces technology adoption friction through the use of AI.
               </p>
-              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-900 font-medium mb-6 leading-relaxed">
                 There has never been a more exciting time to be in technology. With the launch of 5G networks 
                 and their hyper speeds, the proliferation of IoT, the rise of voice as interface, to the 
                 simplification of tech with AI, this foundational tech is driving rapid change in the industry.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed mb-8">
+              <p className="text-lg text-gray-900 font-medium leading-relaxed mb-8">
                 I am excited to be at the heart of this shift, leveraging technology to help consumers 
                 experience and do amazing things.
               </p>
@@ -294,12 +294,12 @@ export default function PortfolioSite() {
                   <div className="space-y-4">
                     <div className="bg-white rounded-xl p-4 shadow-md">
                       <h5 className="font-semibold text-gunmetal mb-2">Be Proactive</h5>
-                      <p className="text-gunmetal/80 text-sm">As I go into new projects I always advise my team that "we don't know what we don't know". So I challenge everyone to ask questions, uncover insights, and learn quickly.</p>
+                      <p className="text-gunmetal text-sm font-medium">As I go into new projects I always advise my team that "we don't know what we don't know". So I challenge everyone to ask questions, uncover insights, and learn quickly.</p>
                     </div>
 
                     <div className="bg-white rounded-xl p-4 shadow-md">
                       <h5 className="font-semibold text-gunmetal mb-2">Start with the Future in Mind</h5>
-                      <p className="text-gunmetal/80 text-sm">I take a software development architecture approach to everything I do - build a scalable framework/platform that can stand the test of time and be added to.</p>
+                      <p className="text-gunmetal text-sm font-medium">I take a software development architecture approach to everything I do - build a scalable framework/platform that can stand the test of time and be added to.</p>
                     </div>
                   </div>
                 </div>
@@ -324,7 +324,7 @@ export default function PortfolioSite() {
                 <div className="text-center">
                   <div className="bg-white rounded-2xl p-6 shadow-xl inline-block mb-4">
                     <h5 className="text-lg font-semibold text-gunmetal mb-3">Monitor, Hypothesize, Test</h5>
-                    <p className="text-gunmetal/80 mb-4 max-w-xl">When a product is in market, collect data about user behavior and pair it with hypotheses for actionable insights.</p>
+                    <p className="text-gunmetal font-medium mb-4 max-w-xl">When a product is in market, collect data about user behavior and pair it with hypotheses for actionable insights.</p>
                   </div>
                   <div>
                     <a
@@ -439,7 +439,7 @@ export default function PortfolioSite() {
               <div className="p-8 bg-cream/50 border-t border-gunmetal/10">
                 <div className="mb-8">
                   <h4 className="text-3xl font-bold text-gunmetal mb-4 text-center">Featured Videos & Presentations</h4>
-                  <p className="text-gunmetal/70 text-center max-w-3xl mx-auto">Watch Suzanne's key presentations from Samsung Unpacked events, product launches, and industry conferences showcasing mobile innovation and product strategy.</p>
+                  <p className="text-gunmetal font-medium text-center max-w-3xl mx-auto">Watch Suzanne's key presentations from Samsung Unpacked events, product launches, and industry conferences showcasing mobile innovation and product strategy.</p>
                 </div>
 
                 {/* Video Grid */}
@@ -472,7 +472,7 @@ export default function PortfolioSite() {
                       </a>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-700 text-sm">Suzanne presents the Galaxy S10 features and camera innovations at Samsung's flagship event.</p>
+                      <p className="text-gray-800 text-sm font-medium">Suzanne presents the Galaxy S10 features and camera innovations at Samsung's flagship event.</p>
                     </div>
                   </div>
 
@@ -504,7 +504,7 @@ export default function PortfolioSite() {
                       </a>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-700 text-sm">Full Samsung Unpacked 2019 event featuring Galaxy S10 series and innovative mobile technologies.</p>
+                      <p className="text-gray-800 text-sm font-medium">Full Samsung Unpacked 2019 event featuring Galaxy S10 series and innovative mobile technologies.</p>
                     </div>
                   </div>
 
@@ -536,7 +536,7 @@ export default function PortfolioSite() {
                       </a>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-700 text-sm">Comprehensive discussion on product strategy, innovation methodology, and market positioning.</p>
+                      <p className="text-gray-800 text-sm font-medium">Comprehensive discussion on product strategy, innovation methodology, and market positioning.</p>
                     </div>
                   </div>
 
@@ -568,7 +568,7 @@ export default function PortfolioSite() {
                       </a>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-700 text-sm">Galaxy Note 8 unveiling at Brooklyn's Barclays Center featuring S-Pen innovations.</p>
+                      <p className="text-gray-800 text-sm font-medium">Galaxy Note 8 unveiling at Brooklyn's Barclays Center featuring S-Pen innovations.</p>
                     </div>
                   </div>
 
@@ -600,7 +600,7 @@ export default function PortfolioSite() {
                       </a>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-700 text-sm">Live coverage and behind-the-scenes content from Samsung's major product launch events.</p>
+                      <p className="text-gray-800 text-sm font-medium">Live coverage and behind-the-scenes content from Samsung's major product launch events.</p>
                     </div>
                   </div>
 
@@ -632,7 +632,7 @@ export default function PortfolioSite() {
                       </a>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-700 text-sm">Latest Samsung Unpacked event showcasing cutting-edge Galaxy AI and ecosystem innovations.</p>
+                      <p className="text-gray-800 text-sm font-medium">Latest Samsung Unpacked event showcasing cutting-edge Galaxy AI and ecosystem innovations.</p>
                     </div>
                   </div>
                 </div>
@@ -644,29 +644,29 @@ export default function PortfolioSite() {
                     <div className="space-y-4">
                       <div className="border-l-4 border-gunmetal pl-4">
                         <h5 className="font-semibold text-gunmetal">Samsung Unpacked Events</h5>
-                        <p className="text-gunmetal/70">Lead presenter for Galaxy S10, Note 8, and major product launches</p>
+                        <p className="text-gunmetal font-medium">Lead presenter for Galaxy S10, Note 8, and major product launches</p>
                       </div>
                       <div className="border-l-4 border-gunmetal pl-4">
                         <h5 className="font-semibold text-gunmetal">Industry Conferences</h5>
-                        <p className="text-gunmetal/70">Keynotes on mobile innovation, 5G technology, and product management</p>
+                        <p className="text-gunmetal font-medium">Keynotes on mobile innovation, 5G technology, and product management</p>
                       </div>
                       <div className="border-l-4 border-gunmetal pl-4">
                         <h5 className="font-semibold text-gunmetal">Media Interviews</h5>
-                        <p className="text-gunmetal/70">Technology insights, market analysis, and product strategy discussions</p>
+                        <p className="text-gunmetal font-medium">Technology insights, market analysis, and product strategy discussions</p>
                       </div>
                     </div>
                     <div className="space-y-4">
                       <div className="border-l-4 border-gunmetal pl-4">
                         <h5 className="font-semibold text-gunmetal">Product Strategy Sessions</h5>
-                        <p className="text-gunmetal/70">Deep-dive presentations on product development methodology</p>
+                        <p className="text-gunmetal font-medium">Deep-dive presentations on product development methodology</p>
                       </div>
                       <div className="border-l-4 border-gunmetal pl-4">
                         <h5 className="font-semibold text-gunmetal">Camera & Innovation Focus</h5>
-                        <p className="text-gunmetal/70">Specialized presentations on mobile photography and dual-camera technology</p>
+                        <p className="text-gunmetal font-medium">Specialized presentations on mobile photography and dual-camera technology</p>
                       </div>
                       <div className="border-l-4 border-gunmetal pl-4">
                         <h5 className="font-semibold text-gunmetal">Global Launch Events</h5>
-                        <p className="text-gunmetal/70">International product reveals and market positioning strategies</p>
+                        <p className="text-gunmetal font-medium">International product reveals and market positioning strategies</p>
                       </div>
                     </div>
                   </div>
@@ -685,21 +685,21 @@ export default function PortfolioSite() {
             <div className="bg-white rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105">
               <div className="text-4xl font-bold text-gunmetal mb-3">16+</div>
               <div className="text-xl font-semibold text-gunmetal mb-3">Years Experience</div>
-              <p className="text-gunmetal/80">
+              <p className="text-gunmetal font-medium">
                 Developing and launching innovative products across the technology spectrum.
               </p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105">
               <div className="text-4xl font-bold text-gunmetal mb-3">Millions</div>
               <div className="text-xl font-semibold text-gunmetal mb-3">Global Consumers</div>
-              <p className="text-gunmetal/80">
+              <p className="text-gunmetal font-medium">
                 Products have driven engagement and delight across millions of users worldwide.
               </p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105">
               <div className="text-4xl font-bold text-gunmetal mb-3">30+</div>
               <div className="text-xl font-semibold text-gunmetal mb-3">Product Launches</div>
-              <p className="text-gunmetal/80">
+              <p className="text-gunmetal font-medium">
                 Successfully launched diverse hardware and software products.
               </p>
             </div>
@@ -785,7 +785,7 @@ export default function PortfolioSite() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 bg-white border-t border-gunmetal/10 text-center text-gunmetal/60 text-sm">
+      <footer className="py-8 bg-white border-t border-gunmetal/10 text-center text-gunmetal text-sm">
         &copy; {new Date().getFullYear()} Suzanne De Silva. All rights reserved.
       </footer>
     </div>

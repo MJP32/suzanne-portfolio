@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gunmetal: '#2C3539',
+        gunmetal: '#7890B0',
         copper: '#B87333',
         coral: '#E07A5F',
         cream: '#FAF9F6',
