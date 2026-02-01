@@ -67,7 +67,7 @@ export default function PortfolioSite() {
       {/* Navigation - Compact, Right-aligned, Hides on Scroll */}
       <nav className={`fixed top-4 right-4 z-50 transition-all duration-300 ${isNavVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-1 bg-gunmetal/90 backdrop-blur-md rounded-full px-2 py-2 shadow-lg">
+        <div className="hidden lg:flex items-center space-x-1 bg-gunmetal/90 backdrop-blur-md rounded-xl px-3 py-2 shadow-lg">
           <button onClick={() => scrollToSection('home')} className="px-4 py-2 text-white hover:text-gunmetal hover:bg-cream rounded-full transition-all duration-300 font-medium text-sm">Home</button>
           <button onClick={() => scrollToSection('about')} className="px-4 py-2 text-white hover:text-gunmetal hover:bg-cream rounded-full transition-all duration-300 font-medium text-sm">About</button>
           <button onClick={() => scrollToSection('product-mgmt')} className="px-4 py-2 text-white hover:text-gunmetal hover:bg-cream rounded-full transition-all duration-300 font-medium text-sm">Product Mgmt</button>
@@ -104,11 +104,12 @@ export default function PortfolioSite() {
       {/* Hero Section */}
       <section id="home" className="h-screen relative overflow-hidden">
         {/* Video Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <iframe
-            src="https://www.youtube.com/embed/IAWvulFcZkY?autoplay=1&mute=1&loop=1&playlist=IAWvulFcZkY&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&start=49"
-            className="w-full h-full object-cover border-0"
-            allow="autoplay; encrypted-media"
+            src="https://www.youtube.com/embed/IAWvulFcZkY?autoplay=1&mute=1&loop=1&playlist=IAWvulFcZkY&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&start=49&playsinline=1&enablejsapi=1"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto border-0"
+            style={{ aspectRatio: '16/9' }}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             title="Suzanne De Silva Samsung Galaxy S10 Presentation"
           ></iframe>
@@ -209,7 +210,7 @@ export default function PortfolioSite() {
                 </button>
               </div>
             </div>
-            <div className="bg-gunmetal rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-transform duration-300">
+            <div className="bg-gunmetal rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-transform duration-300 mt-14">
               <h3 className="text-2xl font-bold text-white mb-6">Key Expertise</h3>
               <ul className="space-y-4">
                 <li className="flex items-center">
@@ -321,20 +322,47 @@ export default function PortfolioSite() {
                   </div>
                 </div>
 
-                <div className="text-center">
-                  <div className="bg-white rounded-2xl p-6 shadow-xl inline-block mb-4">
-                    <h5 className="text-lg font-semibold text-gunmetal mb-3">Monitor, Hypothesize, Test</h5>
-                    <p className="text-gunmetal font-medium mb-4 max-w-xl">When a product is in market, collect data about user behavior and pair it with hypotheses for actionable insights.</p>
-                  </div>
-                  <div>
+                <div className="bg-white rounded-2xl p-6 shadow-xl">
+                  <div className="flex flex-col md:flex-row gap-6 items-center">
+                    {/* Presentation Thumbnail */}
                     <a
                       href="https://suzannedesilva.com/wp-content/uploads/2023/11/Product-Management-20-Years-in-20-Minutes-1.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center px-6 py-3 bg-gunmetal text-white rounded-full font-semibold hover:bg-gunmetal/90 transition-colors"
+                      className="flex-shrink-0 group"
                     >
-                      Download Full Presentation
+                      <div className="w-48 h-64 bg-gunmetal rounded-lg shadow-lg overflow-hidden relative hover:shadow-xl transition-shadow">
+                        <iframe
+                          src="https://suzannedesilva.com/wp-content/uploads/2023/11/Product-Management-20-Years-in-20-Minutes-1.pdf#page=1&view=FitH"
+                          className="w-full h-full pointer-events-none"
+                          title="Product Management: 20 Years in 20 Minutes"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-full p-3">
+                            <svg className="w-6 h-6 text-gunmetal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
                     </a>
+
+                    {/* Content */}
+                    <div className="flex-1 text-center md:text-left">
+                      <h5 className="text-xl font-semibold text-gunmetal mb-3">Product Management: 20 Years in 20 Minutes</h5>
+                      <p className="text-gunmetal font-medium mb-4">A comprehensive guide covering key principles including monitoring, hypothesizing, and testing to drive product success.</p>
+                      <a
+                        href="https://suzannedesilva.com/wp-content/uploads/2023/11/Product-Management-20-Years-in-20-Minutes-1.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-6 py-3 bg-gunmetal text-white rounded-full font-semibold hover:bg-gunmetal/90 transition-colors"
+                      >
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Download Presentation
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -442,197 +470,97 @@ export default function PortfolioSite() {
                   <p className="text-gunmetal font-medium text-center max-w-3xl mx-auto">Watch Suzanne's key presentations from Samsung Unpacked events, product launches, and industry conferences showcasing mobile innovation and product strategy.</p>
                 </div>
 
-                {/* Video Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  {/* Samsung Galaxy S10 Presentation */}
+                {/* Video Grid - Embedded Players */}
+                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                  {/* Galaxy S10 Presentation */}
                   <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div className="aspect-video relative group cursor-pointer">
-                      <a
-                        href="https://www.youtube.com/watch?v=IAWvulFcZkY&t=49s"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-full"
-                      >
-                        <img
-                          src="https://img.youtube.com/vi/IAWvulFcZkY/maxresdefault.jpg"
-                          alt="Galaxy S10 Launch - Samsung Unpacked 2019"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
-                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h5 className="text-white font-semibold text-lg drop-shadow">Galaxy S10 Launch</h5>
-                          <p className="text-white/90 text-sm drop-shadow">Samsung Unpacked 2019</p>
-                        </div>
-                      </a>
+                    <div className="aspect-video">
+                      <iframe
+                        src="https://www.youtube.com/embed/IAWvulFcZkY?start=7&rel=0"
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                        allowFullScreen
+                        title="Galaxy S10 Launch - Samsung Unpacked 2019"
+                      ></iframe>
                     </div>
                     <div className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h5 className="font-semibold text-gunmetal">Galaxy S10 Launch</h5>
+                        <a href="https://www.youtube.com/watch?v=IAWvulFcZkY&t=7s" target="_blank" rel="noopener noreferrer" className="text-sm text-gunmetal hover:text-copper font-medium flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                          YouTube
+                        </a>
+                      </div>
                       <p className="text-gray-800 text-sm font-medium">Suzanne presents the Galaxy S10 features and camera innovations at Samsung's flagship event.</p>
                     </div>
                   </div>
 
-                  {/* Samsung Unpacked 2019 Full Event */}
+                  {/* Galaxy S10 Camera Features */}
                   <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div className="aspect-video relative group cursor-pointer">
-                      <a
-                        href="https://www.youtube.com/watch?v=USDvd7fhbd0"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-full"
-                      >
-                        <img
-                          src="https://img.youtube.com/vi/USDvd7fhbd0/maxresdefault.jpg"
-                          alt="Unpacked 2019 Full Event - Complete Galaxy S10 Launch"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
-                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h5 className="text-white font-semibold text-lg drop-shadow">Unpacked 2019 Full Event</h5>
-                          <p className="text-white/90 text-sm drop-shadow">Complete Galaxy S10 Launch</p>
-                        </div>
-                      </a>
+                    <div className="aspect-video">
+                      <iframe
+                        src="https://www.youtube.com/embed/yA4cktRV28s?start=19&rel=0"
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                        allowFullScreen
+                        title="Galaxy S10 Camera Features"
+                      ></iframe>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-800 text-sm font-medium">Full Samsung Unpacked 2019 event featuring Galaxy S10 series and innovative mobile technologies.</p>
+                      <div className="flex justify-between items-start mb-2">
+                        <h5 className="font-semibold text-gunmetal">Galaxy S10 Camera Features</h5>
+                        <a href="https://www.youtube.com/watch?v=yA4cktRV28s&t=19s" target="_blank" rel="noopener noreferrer" className="text-sm text-gunmetal hover:text-copper font-medium flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                          YouTube
+                        </a>
+                      </div>
+                      <p className="text-gray-800 text-sm font-medium">Deep dive into the innovative camera technology and features of the Galaxy S10.</p>
                     </div>
                   </div>
 
-                  {/* Product Strategy Video */}
+                  {/* Samsung Presentation */}
                   <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div className="aspect-video relative group cursor-pointer">
-                      <a
-                        href="https://www.youtube.com/watch?v=SSCmwChfdvM"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-full"
-                      >
-                        <img
-                          src="https://img.youtube.com/vi/SSCmwChfdvM/maxresdefault.jpg"
-                          alt="Product Strategy Deep Dive - Innovation & Market Positioning"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
-                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h5 className="text-white font-semibold text-lg drop-shadow">Product Strategy Deep Dive</h5>
-                          <p className="text-white/90 text-sm drop-shadow">Innovation & Market Positioning</p>
-                        </div>
-                      </a>
+                    <div className="aspect-video">
+                      <iframe
+                        src="https://www.youtube.com/embed/oi-8M5ceros?rel=0"
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                        allowFullScreen
+                        title="Samsung Product Presentation"
+                      ></iframe>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-800 text-sm font-medium">Comprehensive discussion on product strategy, innovation methodology, and market positioning.</p>
+                      <div className="flex justify-between items-start mb-2">
+                        <h5 className="font-semibold text-gunmetal">Samsung Product Presentation</h5>
+                        <a href="https://www.youtube.com/watch?v=oi-8M5ceros" target="_blank" rel="noopener noreferrer" className="text-sm text-gunmetal hover:text-copper font-medium flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                          YouTube
+                        </a>
+                      </div>
+                      <p className="text-gray-800 text-sm font-medium">Showcasing Samsung's latest innovations and product strategy.</p>
                     </div>
                   </div>
 
-                  {/* Samsung Galaxy Note 8 */}
+                  {/* Samsung Innovation */}
                   <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div className="aspect-video relative group cursor-pointer">
-                      <a
-                        href="https://www.youtube.com/watch?v=aS3_7iifqYo"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-full"
-                      >
-                        <img
-                          src="https://img.youtube.com/vi/aS3_7iifqYo/maxresdefault.jpg"
-                          alt="Galaxy Note 8 Launch - Unpacked 2017 New York"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
-                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h5 className="text-white font-semibold text-lg drop-shadow">Galaxy Note 8 Launch</h5>
-                          <p className="text-white/90 text-sm drop-shadow">Unpacked 2017 New York</p>
-                        </div>
-                      </a>
+                    <div className="aspect-video">
+                      <iframe
+                        src="https://www.youtube.com/embed/eJo9jXtBWlk?rel=0"
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                        allowFullScreen
+                        title="Samsung Innovation Showcase"
+                      ></iframe>
                     </div>
                     <div className="p-4">
-                      <p className="text-gray-800 text-sm font-medium">Galaxy Note 8 unveiling at Brooklyn's Barclays Center featuring S-Pen innovations.</p>
-                    </div>
-                  </div>
-
-                  {/* Samsung Live Stream */}
-                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div className="aspect-video relative group cursor-pointer">
-                      <a
-                        href="https://www.youtube.com/watch?v=QduQGadjigM"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-full"
-                      >
-                        <img
-                          src="https://img.youtube.com/vi/QduQGadjigM/maxresdefault.jpg"
-                          alt="Live Event Coverage - Behind the Scenes"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
-                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h5 className="text-white font-semibold text-lg drop-shadow">Live Event Coverage</h5>
-                          <p className="text-white/90 text-sm drop-shadow">Behind the Scenes</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="p-4">
-                      <p className="text-gray-800 text-sm font-medium">Live coverage and behind-the-scenes content from Samsung's major product launch events.</p>
-                    </div>
-                  </div>
-
-                  {/* Latest Unpacked */}
-                  <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    <div className="aspect-video relative group cursor-pointer">
-                      <a
-                        href="https://www.youtube.com/watch?v=DzjsdYZQ7ns"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-full"
-                      >
-                        <img
-                          src="https://img.youtube.com/vi/DzjsdYZQ7ns/maxresdefault.jpg"
-                          alt="Galaxy Unpacked 2024 - Latest Innovations"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
-                            <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h5 className="text-white font-semibold text-lg drop-shadow">Galaxy Unpacked 2024</h5>
-                          <p className="text-white/90 text-sm drop-shadow">Latest Innovations</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="p-4">
-                      <p className="text-gray-800 text-sm font-medium">Latest Samsung Unpacked event showcasing cutting-edge Galaxy AI and ecosystem innovations.</p>
+                      <div className="flex justify-between items-start mb-2">
+                        <h5 className="font-semibold text-gunmetal">Samsung Innovation Showcase</h5>
+                        <a href="https://www.youtube.com/watch?v=eJo9jXtBWlk" target="_blank" rel="noopener noreferrer" className="text-sm text-gunmetal hover:text-copper font-medium flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                          YouTube
+                        </a>
+                      </div>
+                      <p className="text-gray-800 text-sm font-medium">Highlighting cutting-edge mobile technology and innovation leadership.</p>
                     </div>
                   </div>
                 </div>
